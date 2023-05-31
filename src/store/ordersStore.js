@@ -16,7 +16,7 @@ export const useOrdersStore = defineStore("orders", {
   actions: {
     async fetchOrders() {
       try {
-        // const response = (await import("../data/data.json")).default;
+        // const response = (await import("../data/orders.json")).default;
         // this.totalPages = response.total_pages;
         // const keys = Object.keys(response.requests);
         // const result = keys.map((key) => {

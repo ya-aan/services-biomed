@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <div class="help-personal">
+  <div class="tab">
     <p>
       Удобный способ получать и хранить результаты анализов – Личный кабинет. Он
       позволяет просматривать результаты исследований в любом удобном месте,
@@ -21,7 +21,7 @@
   </div>
 </template>
 
-<style lang="css" scoped>
+<style lang="css">
 .help-personal {
   width: 520px;
   margin-left: 20px;

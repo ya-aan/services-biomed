@@ -28,8 +28,10 @@ async function submit() {
       e.response.data.detail === "LOGIN_BAD_CREDENTIALS"
     ) {
       alert("Неверный логин или пароль");
+    } else if (e.response.data.detail === "LOGIN_USER_NOT_VERIFIED") {
+      alert("Учетная запись не была подтверждена");
     } else {
-      alert("Произошла ошибка при регистрации, попробуйте попозже");
+      alert("Произошла ошибка при авторизации, попробуйте позже");
     }
   }
 }

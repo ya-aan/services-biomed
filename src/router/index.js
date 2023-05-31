@@ -37,20 +37,7 @@ export const router = createRouter({
         {
           path: "/help",
           name: "Help",
-          component: () => import("@/views//HelpTabs.vue"),
-          children: [
-            {
-              path: "/help/main",
-              name: "Help-Main",
-              component: () => import("@/views/helpPages/Help.vue"),
-            },
-            {
-              path: "/help/personal/account",
-              name: "Help-personal-account",
-              component: () =>
-                import("@/views/helpPages/HelpPersonalAccount.vue"),
-            },
-          ],
+          component: () => import("@/views/help/HelpTabs.vue"),
         },
       ],
     },

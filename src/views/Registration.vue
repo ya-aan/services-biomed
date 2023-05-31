@@ -1,10 +1,9 @@
 <script setup>
-// import axios from "axios";
 import { ref } from "vue";
-import { registrationUser, resendEmail } from "../services/registrationService";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
+import {
+  registerNewUser,
+  resendVerification,
+} from "../services/registrationService";
 
 const email = ref("");
 const password = ref("");
@@ -12,7 +11,6 @@ const birthDate = ref("");
 const showRegisterButton = ref(false);
 
 async function register() {
-  // const url = "http://81.200.148.127:8080/users/register";
   const formData = {
     email: email.value,
     password: password.value,
@@ -21,10 +19,8 @@ async function register() {
   };
   showRegisterButton.value = true;
   try {
-    // const response = await axios.post(url, formData);
-    const response = await registrationUser(formData);
+    const response = await registerNewUser(formData);
     alert("Письмо с подтверждения отправлено на указанный email");
-    router.push("/auth");
   } catch (e) {
     if (
       e.response &&
@@ -39,12 +35,8 @@ async function register() {
 }
 
 async function resend() {
-  const data = {
-    email: email.value,
-  };
-
   try {
-    const response = await resendEmail(data);
+    const response = await resendVerification(email.value);
     alert("Повторное письмо отправлено вам на почту");
   } catch (e) {
     switch (e.response && e.response.status) {
@@ -108,7 +100,7 @@ async function resend() {
             </button>
             <button
               class="registration-btn"
-              @click.stop="resend"
+              @click.prevent="resend"
               v-if="showRegisterButton"
             >
               Не пришло письмо?

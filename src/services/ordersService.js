@@ -2,6 +2,8 @@
 
 import { baseClient } from "./baseClient";
 
+const isDev = import.meta.env.DEV;
+
 export const postOrder = async (requestNr, birthDate) => {
   const params = {
     request_nr: requestNr,
@@ -14,6 +16,12 @@ export const postOrder = async (requestNr, birthDate) => {
 };
 
 export const getOrders = async (pageNumber = 0) => {
+  if (isDev) {
+    const data = (await import("@/data/orders.json")).default;
+    return {
+      data: data,
+    };
+  }
   return await baseClient.post(
     `/requests/get-requests-user?page=${pageNumber}`
   );

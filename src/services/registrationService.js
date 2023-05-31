@@ -1,9 +1,9 @@
 import { baseClient } from "@/services/baseClient";
 
-export const registrationUser = async (formData) => {
+export const registerNewUser = async (formData) => {
   return await baseClient.post("/users/register", formData);
 };
 
-export const resendEmail = async (data) => {
-  return await baseClient.post(`/users/resend-email-verify?email=${data}`);
+export const resendVerification = async (email) => {
+  return await baseClient.post(`/users/resend-email-verify?email=${email}`);
 };

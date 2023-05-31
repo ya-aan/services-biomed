@@ -41,3 +41,12 @@ body {
   max-width: 1300px;
   width: 100%;
 } */
+
+.link {
+  color: #098700;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #ff5a00;
+}

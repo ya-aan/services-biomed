@@ -3,11 +3,11 @@ import { ref, onMounted } from "vue";
 import { useOrdersStore } from "@/store/ordersStore";
 import { useModalOrderStore } from "@/store/modalOrderStore";
 import { storeToRefs } from "pinia";
-import moment from "moment";
 import AnalysisStatus from "@/components/ui/AnalysisStatus.vue";
 import ModalOrders from "@/components/ui/ModalOrders.vue";
 import Modal from "@/components/ui/Modal.vue";
 import FormDowlandOrdersResults from "@/components/forms/FormDowlandOrdersResults.vue";
+import DateConverter from "@/components/DateConverter.vue";
 
 const ordersStore = useOrdersStore();
 const modalOrderStore = useModalOrderStore();
@@ -23,12 +23,6 @@ async function handleOrderData(requestNr, birthDate) {
 
 async function handleDelete(orderId) {
   await ordersStore.deleteOrder(orderId);
-}
-
-// Функция для обработки даты и времени
-function formatDate(dateStr) {
-  const date = moment(dateStr, "YYYY-MM-DDTHH:mm:ss.SSSZ");
-  return date.format("DD.MM.YYYY HH:mm");
 }
 
 onMounted(async () => {
@@ -91,10 +85,10 @@ onMounted(async () => {
                   {{ order.request.internalNr }}
                 </button>
               </td>
-              <td>{{ formatDate(order.request.registrationDate) }}</td>
+              <td><DateConverter :date="order.request.registrationDate" /></td>
               <td><AnalysisStatus :is-done="order.request.done" /></td>
               <td>{{ order.request.totalPrice }} ₽</td>
-              <td>{{ formatDate(order.request.endDate) }}</td>
+              <td><DateConverter :date="order.request.endDate" /></td>
               <!-- <td>
                 <router-link to="#" class="table-link"> Повторить </router-link>
               </td> -->
