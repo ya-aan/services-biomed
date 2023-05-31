@@ -49,7 +49,7 @@ async function submit() {
                 class="auth-input"
                 type="email"
                 id="email"
-                v-model="email"
+                v-model.trim="email"
                 required
               />
               <label for="email">Email</label>
@@ -60,7 +60,7 @@ async function submit() {
                 class="auth-input"
                 type="password"
                 id="password"
-                v-model="password"
+                v-model.trim="password"
                 required
               />
               <label for="password">Пароль</label>

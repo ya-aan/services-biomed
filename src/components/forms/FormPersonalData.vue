@@ -64,7 +64,7 @@ function onSubmit() {
         class="form-input"
         type="text"
         id="surname"
-        v-model="user.lastname"
+        v-model.trim="user.lastname"
         required
       />
       <label for="name">Фамилия</label>
@@ -75,7 +75,7 @@ function onSubmit() {
         class="form-input"
         type="text"
         id="name"
-        v-model="user.firstname"
+        v-model.trim="user.firstname"
         required
       />
       <label for="name">Имя</label>
@@ -86,7 +86,7 @@ function onSubmit() {
         class="form-input"
         type="text"
         id="midlleName"
-        v-model="user.middlename"
+        v-model.trim="user.middlename"
         required
       />
       <label for="midlleName">Отчество</label>
@@ -97,7 +97,7 @@ function onSubmit() {
         class="form-input"
         type="date"
         id="birthdate"
-        v-model="user.date_birth"
+        v-model.trim="user.date_birth"
         required
       />
       <label for="midlleName">Дата рождения</label>
@@ -118,7 +118,7 @@ function onSubmit() {
         class="form-input"
         type="tel"
         id="phone"
-        v-model="user.phone"
+        v-model.trim="user.phone"
         required
       />
       <label for="email">Мобильный номер</label>
@@ -129,7 +129,7 @@ function onSubmit() {
         class="form-input"
         type="email"
         id="email"
-        v-model="user.email"
+        v-model.trim="user.email"
         required
       />
       <label for="email">Email</label>
@@ -168,7 +168,8 @@ function onSubmit() {
   border-radius: 5px;
   color: #333;
   font: 13px Tahoma, Arial, sans-serif;
-  width: 30vh;
+  /* width: 30vh; */
+  width: 242px;
   height: 50px;
 }
 

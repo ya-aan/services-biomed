@@ -12,10 +12,8 @@
     "axios": "^1.4.0",
     "moment": "^2.29.4",
     "pinia": "^2.0.36",
-    "vee-validate": "^4.9.3",
     "vue": "^3.2.47",
-    "vue-router": "^4.2.0",
-    "yup": "^1.1.1"
+    "vue-router": "^4.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",

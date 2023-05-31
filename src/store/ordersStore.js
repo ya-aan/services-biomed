@@ -47,17 +47,12 @@ export const useOrdersStore = defineStore("orders", {
           await this.fetchOrders();
         }
       } catch (e) {
-        if (
-          e.response &&
-          e.response.status === 422 &&
-          e.response.status === 400 &&
-          e.response.data.detail === "Bad Request"
-        ) {
-          alert(
-            "Ошибка: Неверный формат данных. Проверьте указана ли верная дата рождения, а так же номер заказа"
-          );
+        if (e.response?.status === 422) {
+          alert("Ошибка: Неверный формат данных");
+        } else if (e.response?.status === 400) {
+          alert("Ошибка: Неверный формат данных");
         } else {
-          alert("Ошибка: Попробуйте позже");
+          alert("Произошла ошибка при добавление заявки");
         }
       }
     },

@@ -18,7 +18,7 @@ export const useResultStore = defineStore("result", {
         if (e.response?.status === 422) {
           alert("Ошибка: Неверный формат данных");
         } else if (e.response?.status === 400) {
-          alert("Ошибка: Неверный запрос");
+          alert("Ошибка: Неверный формат данных");
         } else {
           alert("Произошла ошибка при получения заявки");
         }

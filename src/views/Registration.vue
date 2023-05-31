@@ -69,7 +69,7 @@ async function resend() {
                 class="registration-input"
                 type="email"
                 id="email"
-                v-model="email"
+                v-model.trim="email"
                 required
               />
               <label for="email">Email</label>
@@ -79,7 +79,7 @@ async function resend() {
                 class="registration-input"
                 type="password"
                 id="password"
-                v-model="password"
+                v-model.trim="password"
                 required
               />
               <label for="password">Пароль</label>
@@ -89,8 +89,7 @@ async function resend() {
                 class="registration-input"
                 type="date"
                 id="birthdate"
-                pattern="\d{2}\.\d{2}\.\d{4}"
-                v-model="birthDate"
+                v-model.trim="birthDate"
                 required
               />
               <label for="birthdate">Дата рождения</label>

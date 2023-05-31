@@ -18,12 +18,17 @@ function onSubmit() {
   <div class="form-wrapper">
     <form class="form" @submit.prevent="onSubmit">
       <div class="input-wrapper">
-        <input class="form-input" type="text" v-model="orderNumber" required />
+        <input
+          class="form-input"
+          type="text"
+          v-model.trim="orderNumber"
+          required
+        />
         <label for="text">Номер заказа</label>
       </div>
 
       <div class="input-wrapper" v-if="showBirthDateInput">
-        <input class="form-input" type="date" v-model="birthDate" />
+        <input class="form-input" type="date" v-model.trim="birthDate" />
         <label for="text">Дата рождения</label>
       </div>
 

@@ -40,13 +40,4 @@
 .navbar-menu li {
   margin-right: 2rem;
 }
-/* 
-.navbar-menu li a {
-  color: #098700;
-  text-decoration: none;
-}
-
-.navbar-menu li a:hover {
-  color: #ff5a00;
-} */
 </style>

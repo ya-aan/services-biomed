@@ -5,14 +5,6 @@ const props = defineProps({
     type: String,
     default: "Modal Title",
   },
-  width: {
-    type: Number,
-    default: 362,
-  },
-  height: {
-    type: Number,
-    default: 200,
-  },
 });
 </script>
 
@@ -39,22 +31,28 @@ const props = defineProps({
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: block;
+  /* justify-content: center;
+  align-items: center; */
 }
 
 .modal-content {
-  background-color: #fefefe;
+  /* background-color: #fefefe;
   border: 1px solid #888;
-  border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  position: relative;
+  position: relative; */
+
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 0px 20px;
+  border: 1px solid #e8e8e8;
+  width: 30%;
+  border-radius: 5px;
 }
 
 .modal-content__header {
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   color: #333;
   /* font-size: 18px; */
   font-weight: bold;
@@ -80,5 +78,13 @@ const props = defineProps({
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .modal-content {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
 }
 </style>
