@@ -92,7 +92,8 @@ function onSubmit() {
       <label for="midlleName">Отчество</label>
     </div>
 
-    <div class="input-wrapper" v-if="isFormInEditMode">
+    <!-- v-if="isFormInEditMode" -->
+    <div class="input-wrapper">
       <input
         class="form-input"
         type="date"

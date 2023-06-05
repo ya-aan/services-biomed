@@ -3,21 +3,25 @@ import { ref } from "vue";
 import {
   registerNewUser,
   resendVerification,
-} from "../services/registrationService";
+} from "@/services/registrationService";
+import Modal from "@/components/ui/Modal.vue";
+import FormProblems from "@/components/forms/FormProblems.vue";
 
 const email = ref("");
-const password = ref("");
-const birthDate = ref("");
-const showRegisterButton = ref(false);
+const showModal = ref(false);
+// const password = ref("");
+// const birthDate = ref("");
+// const showRegisterButton = ref(false);
 
 async function register() {
   const formData = {
     email: email.value,
-    password: password.value,
-    date_birth: birthDate.value,
-    male: 0, // 0 означает пол не присвоен, 1 - мужской, 2 - женский
+    password: "",
+    // date_birth: birthDate.value,
+    // male: 0, // 0 означает пол не присвоен, 1 - мужской, 2 - женский
   };
-  showRegisterButton.value = true;
+  // showRegisterButton.value = true;
+  console.log(formData);
   try {
     const response = await registerNewUser(formData);
     alert("Письмо с подтверждения отправлено на указанный email");
@@ -62,7 +66,7 @@ async function resend() {
     <div class="registration">
       <div class="registration-wrapper">
         <div class="registration-body">
-          <h2>Регистрация</h2>
+          <h2>Зарегистрировать Личный кабинет</h2>
           <form @submit.prevent="register" class="form">
             <div class="input-wrapper">
               <input
@@ -74,7 +78,7 @@ async function resend() {
               />
               <label for="email">Email</label>
             </div>
-            <div class="input-wrapper">
+            <!-- <div class="input-wrapper">
               <input
                 class="registration-input"
                 type="password"
@@ -83,8 +87,8 @@ async function resend() {
                 required
               />
               <label for="password">Пароль</label>
-            </div>
-            <div class="input-wrapper">
+            </div> -->
+            <!-- <div class="input-wrapper">
               <input
                 class="registration-input"
                 type="date"
@@ -93,17 +97,48 @@ async function resend() {
                 required
               />
               <label for="birthdate">Дата рождения</label>
-            </div>
+            </div> -->
             <button class="registration-btn" type="submit">
-              Зарегистрироваться
+              Создать личный кабинет
             </button>
-            <button
-              class="registration-btn"
-              @click.prevent="resend"
-              v-if="showRegisterButton"
-            >
-              Не пришло письмо?
-            </button>
+
+            <div>
+              <p>
+                Проблемы с регистрацией?
+                <a class="link-registration" href="#" @click="showModal = true"
+                  >Напишите,</a
+                >
+                и мы поможем.
+              </p>
+
+              <Modal
+                v-if="showModal"
+                @close="showModal = false"
+                title="Напишите о вашей проблеме, и мы в ближайшее время свяжемся с вами для ее решения."
+              >
+                <FormProblems />
+              </Modal>
+
+              <p>
+                <button class="reset-btn" @click.prevent="resend">
+                  Повторно запросить
+                </button>
+                письмо активации.
+              </p>
+
+              <p>
+                Подтверждая регистрацию, вы принимаете
+                <a
+                  class="link-registration"
+                  href="https://azbykamed.ru/about/policy/"
+                  target="_blank"
+                >
+                  условия</a
+                >
+                согласия на обработку персональных данных.
+              </p>
+            </div>
+            <!-- v-if="showRegisterButton" -->
           </form>
         </div>
       </div>
@@ -125,6 +160,16 @@ async function resend() {
   background-color: #fff;
   width: 50%;
   border-radius: 20px;
+
+  /*  */
+
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #45a82a;
+  padding: 15px 31px 1px;
+  box-shadow: rgba(113, 158, 100, 1) 2px 2px 5px 0px;
+  color: #fff;
+  text-align: left;
 }
 
 .registration-body {
@@ -174,11 +219,12 @@ async function resend() {
 .input-wrapper .registration-input:valid + label {
   top: -20px;
   font-size: 11px;
-  color: #82cc6c;
+  /* color: #82cc6c; */
+  color: #fff;
 }
 
 .registration-btn {
-  text-decoration: none;
+  /* text-decoration: none;
   overflow: visible;
   padding: 7px 11px;
   border: 1px solid #82cc6c;
@@ -188,12 +234,51 @@ async function resend() {
   font: 13px Tahoma, Arial, sans-serif;
   cursor: pointer;
   background: #fff;
-  margin-bottom: 20px;
+  margin-bottom: 20px; */
+
+  box-sizing: border-box;
+  border: none;
+  border-radius: 6px;
+  background-color: #45a82a;
+  padding: 12px 11px;
+  display: block;
+  width: 100%;
+  font: normal 14.6pt/14.6pt Tahoma, Arial, Helvetica, sans-serif;
+  box-shadow: rgba(94, 112, 91, 1) 2px 2px 5px 0px;
+  color: #529f38;
+  text-align: center;
+  background: #fbfdfa;
+  cursor: pointer;
+  /* background: -moz-linear-gradient(top, #fbfdfa 0%, #c1c7bf 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbfdfa), color-stop(100%,#c1c7bf));
+    background: -webkit-linear-gradient(top, #fbfdfa 0%,#c1c7bf 100%);
+    background: -o-linear-gradient(top, #fbfdfa 0%,#c1c7bf 100%);
+    background: -ms-linear-gradient(top, #fbfdfa 0%,#c1c7bf 100%); */
+  background: linear-gradient(to bottom, #fbfdfa 0%, #c1c7bf 100%);
 }
 
 .registration-btn:hover {
   color: #fff;
   background: #82cc6c;
   border-color: #82cc6c;
+}
+
+.reset-btn {
+  border: none;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
+}
+.reset-btn:hover {
+  border-bottom: none;
+}
+
+.link-registration {
+  color: #fff;
+}
+
+.link-registration:hover {
+  text-decoration: none;
 }
 </style>
