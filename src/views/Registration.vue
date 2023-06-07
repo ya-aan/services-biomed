@@ -1,63 +1,25 @@
 <script setup>
 import { ref } from "vue";
-import {
-  registerNewUser,
-  resendVerification,
-} from "@/services/registrationService";
+import { useRegistrationStore } from "../store/registrationStore";
 import Modal from "@/components/ui/Modal.vue";
 import FormProblems from "@/components/forms/FormProblems.vue";
 
+const registerStore = useRegistrationStore();
+
 const email = ref("");
 const showModal = ref(false);
-// const password = ref("");
-// const birthDate = ref("");
-// const showRegisterButton = ref(false);
 
 async function register() {
-  const formData = {
+  const registrationData = {
     email: email.value,
     password: "",
-    // date_birth: birthDate.value,
-    // male: 0, // 0 означает пол не присвоен, 1 - мужской, 2 - женский
   };
-  // showRegisterButton.value = true;
-  console.log(formData);
-  try {
-    const response = await registerNewUser(formData);
-    alert("Письмо с подтверждения отправлено на указанный email");
-  } catch (e) {
-    if (
-      e.response &&
-      e.response.status === 400 &&
-      e.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"
-    ) {
-      alert("Пользователь с таким email уже существует");
-    } else {
-      alert("Произошла ошибка при регистрации, попробуйте попозже");
-    }
-  }
+
+  await registerStore.registerUser(registrationData);
 }
 
 async function resend() {
-  try {
-    const response = await resendVerification(email.value);
-    alert("Повторное письмо отправлено вам на почту");
-  } catch (e) {
-    switch (e.response && e.response.status) {
-      case 400:
-        alert("Почта не найдена");
-        break;
-      case 498:
-        alert("Пользователь либо неактивен, либо уже верифицирован");
-        break;
-      case 422:
-        alert("Ошибка валидации, проверьте правильно ли заполнены поля");
-        break;
-      default:
-        alert("Произошла ошибка при верификации пользователя, повторите позже");
-        break;
-    }
-  }
+  await registerStore.resendEmail(email.value);
 }
 </script>
 
@@ -78,26 +40,6 @@ async function resend() {
               />
               <label for="email">Email</label>
             </div>
-            <!-- <div class="input-wrapper">
-              <input
-                class="registration-input"
-                type="password"
-                id="password"
-                v-model.trim="password"
-                required
-              />
-              <label for="password">Пароль</label>
-            </div> -->
-            <!-- <div class="input-wrapper">
-              <input
-                class="registration-input"
-                type="date"
-                id="birthdate"
-                v-model.trim="birthDate"
-                required
-              />
-              <label for="birthdate">Дата рождения</label>
-            </div> -->
             <button class="registration-btn" type="submit">
               Создать личный кабинет
             </button>
@@ -120,9 +62,9 @@ async function resend() {
               </Modal>
 
               <p>
-                <button class="reset-btn" @click.prevent="resend">
+                <a class="link-registration" href="#" @click.prevent="resend">
                   Повторно запросить
-                </button>
+                </a>
                 письмо активации.
               </p>
 
@@ -138,7 +80,6 @@ async function resend() {
                 согласия на обработку персональных данных.
               </p>
             </div>
-            <!-- v-if="showRegisterButton" -->
           </form>
         </div>
       </div>
@@ -224,18 +165,6 @@ async function resend() {
 }
 
 .registration-btn {
-  /* text-decoration: none;
-  overflow: visible;
-  padding: 7px 11px;
-  border: 1px solid #82cc6c;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  color: #098700;
-  font: 13px Tahoma, Arial, sans-serif;
-  cursor: pointer;
-  background: #fff;
-  margin-bottom: 20px; */
-
   box-sizing: border-box;
   border: none;
   border-radius: 6px;
@@ -249,11 +178,7 @@ async function resend() {
   text-align: center;
   background: #fbfdfa;
   cursor: pointer;
-  /* background: -moz-linear-gradient(top, #fbfdfa 0%, #c1c7bf 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbfdfa), color-stop(100%,#c1c7bf));
-    background: -webkit-linear-gradient(top, #fbfdfa 0%,#c1c7bf 100%);
-    background: -o-linear-gradient(top, #fbfdfa 0%,#c1c7bf 100%);
-    background: -ms-linear-gradient(top, #fbfdfa 0%,#c1c7bf 100%); */
+
   background: linear-gradient(to bottom, #fbfdfa 0%, #c1c7bf 100%);
 }
 
@@ -261,17 +186,6 @@ async function resend() {
   color: #fff;
   background: #82cc6c;
   border-color: #82cc6c;
-}
-
-.reset-btn {
-  border: none;
-  background: none;
-  color: #fff;
-  cursor: pointer;
-  border-bottom: 1px solid #fff;
-}
-.reset-btn:hover {
-  border-bottom: none;
 }
 
 .link-registration {

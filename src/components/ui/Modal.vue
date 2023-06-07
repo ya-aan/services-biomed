@@ -52,9 +52,8 @@ const props = defineProps({
 }
 
 .modal-content__header {
-  /* background-color: #f1f1f1; */
   color: #333;
-  /* font-size: 18px; */
+  font-size: 18px;
   font-weight: bold;
   padding: 10px;
   position: relative;
@@ -62,8 +61,8 @@ const props = defineProps({
 
 .modal-content__body {
   padding: 10px;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 .close {

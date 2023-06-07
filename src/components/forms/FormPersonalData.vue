@@ -92,7 +92,6 @@ function onSubmit() {
       <label for="midlleName">Отчество</label>
     </div>
 
-    <!-- v-if="isFormInEditMode" -->
     <div class="input-wrapper">
       <input
         class="form-input"
@@ -169,8 +168,8 @@ function onSubmit() {
   border-radius: 5px;
   color: #333;
   font: 13px Tahoma, Arial, sans-serif;
-  /* width: 30vh; */
-  width: 242px;
+  /* width: 242px; */
+  width: 100%;
   height: 50px;
 }
 

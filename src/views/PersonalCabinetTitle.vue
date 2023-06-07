@@ -1,9 +1,11 @@
 <script setup>
-import { useUserStore } from "../store/userStore";
+import { useUserStore } from "@/store/userStore";
+import { useRegistrationStore } from "@/store/registrationStore";
 import user from "@/assets/icon-personal-cabinet-profile.png";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
+const registerStore = useRegistrationStore();
 const router = useRouter();
 
 async function logout() {
@@ -29,6 +31,12 @@ async function logout() {
             `${userStore.user?.lastname} ${userStore.user?.firstname} ${userStore.user?.middlename}`
           }}
         </span>
+
+        <span class="personal-cabinet__login">
+          <span> ( </span>
+          {{ userStore.user?.email }}
+          <span>)</span></span
+        >
       </div>
       <span class="personal-cabinet__exit">
         <button @click="logout" class="exit-btn">выйти</button></span
@@ -60,6 +68,12 @@ async function logout() {
 .personal-cabinet__content-img {
   width: 35px;
   height: 35px;
+}
+
+.personal-cabinet__login {
+  margin-left: 5px;
+  color: #098700;
+  font-size: small;
 }
 
 .exit-btn {

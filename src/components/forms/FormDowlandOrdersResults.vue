@@ -7,10 +7,6 @@ const birthDate = ref("");
 const showBirthDateInput = ref(false);
 
 function onSubmit() {
-  // const payload = {
-  //   request_nr: orderNumber.value,
-  //   date_birth: birthDate.value,
-  // };
   emit("submit", orderNumber.value, birthDate.value);
 }
 </script>
@@ -33,18 +29,15 @@ function onSubmit() {
       </div>
 
       <span v-if="showBirthDateInput"
-        >Введите дату рождения пользователя которого вы хотите получить
-        анализ</span
+        >Введите дату рождения указанную на бланке</span
       >
 
-      <div class="form-example">
-        например: 5218-D681-192143708 или 12345-12345-12345678
-      </div>
+      <div class="form-example">например: 7230418123</div>
 
       <button class="btn-form" type="submit">Добавить</button>
     </form>
     <button class="btn-form" @click="showBirthDateInput = true">
-      Добавить доп. Данные
+      Указать иную дату рождения
     </button>
   </div>
 </template>
@@ -99,8 +92,8 @@ function onSubmit() {
 
 .form-example {
   margin: 10px 0;
-  font-size: 11px;
-  text-align: center;
+  /* font-size: 11px; */
+  /* text-align: center; */
   color: #5f5f5f;
 }
 

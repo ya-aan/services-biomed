@@ -1,13 +1,16 @@
 <script setup>
 import { onMounted } from "vue";
 import { useUserStore } from "@/store/userStore";
+import { useRegistrationStore } from "@/store/registrationStore";
 import PersonalCabinetTitle from "@/views/PersonalCabinetTitle.vue";
 import PersonalCabinetTabs from "./PersonalCabinetTabs.vue";
 
 const userStore = useUserStore();
+const registerStore = useRegistrationStore();
 
 onMounted(async () => {
   await userStore.fetchUser();
+  // registerStore.setEmail(userStore.user.email);
 });
 </script>
 <template>
