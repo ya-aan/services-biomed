@@ -21,26 +21,10 @@ body {
   margin: 0 auto;
   max-width: 1300px;
   width: 1300px;
-
-  /* max-width: 1300px; */
-  /* 
-  margin: 20px auto 0;
-  width: 90%;
-  max-width: 1300px; */
+  padding: 20px;
 }
-/* 
-@media (max-width: 767px) {
-  .container {
-    width: 100%;
-    padding: 0 20px;
-  }
-} */
 
-/* .container-center {
-  margin: 20px auto 0;
-  max-width: 1300px;
-  width: 100%;
-} */
+/* link */
 
 .link {
   color: #098700;

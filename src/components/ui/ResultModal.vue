@@ -1,6 +1,6 @@
 <script setup>
 import { useModalResultStore } from "@/store/modalResultStore";
-import { useResultStore } from "../../store/resultStore";
+import { useResultStore } from "@/store/resultStore";
 import { storeToRefs } from "pinia";
 import { computed } from "vue";
 
@@ -98,14 +98,12 @@ const genderString = computed(() => {
 
             <div class="ant-row">
               <div class="ant-col">
-                <button class="ant-btn">
-                  <a
-                    :href="result.path_to_pdf_result"
-                    download="official_blank.pdf"
-                    class="ant-href"
-                    >Официальный бланк</a
-                  >
-                </button>
+                <a
+                  :href="result.path_to_pdf_result"
+                  target="_blank"
+                  class="ant-href"
+                  >Официальный бланк</a
+                >
               </div>
             </div>
 

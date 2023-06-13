@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+
 const emit = defineEmits(["submit"]);
 
 const orderNumber = ref("");
@@ -24,7 +25,7 @@ function onSubmit() {
       </div>
 
       <div class="input-wrapper" v-if="showBirthDateInput">
-        <input class="form-input" type="date" v-model.trim="birthDate" />
+        <input class="form-input" type="date" required v-model="birthDate" />
         <label for="text">Дата рождения</label>
       </div>
 

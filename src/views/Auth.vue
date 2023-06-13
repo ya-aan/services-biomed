@@ -86,13 +86,6 @@ async function submit() {
 </template>
 
 <style lang="css" scoped>
-/* .container-center {
-  width: 100%;
-  padding: 0 20px;
-  margin: 20px auto 0;
-  max-width: 1300px;
-  width: 100%;
-} */
 .auth {
   display: flex;
   justify-content: center;
@@ -102,9 +95,6 @@ async function submit() {
   background-color: #fff;
   width: 50%;
   border-radius: 20px;
-
-  /* width: 100%;
-  max-width: 500px; */
 }
 
 .auth-body {
@@ -201,25 +191,4 @@ async function submit() {
 .link-auth__registration:hover {
   color: #ff5a00;
 }
-
-/* Адаптив */
-
-/* @media (max-width: 1300px) {
-  .container-center {
-    width: 100%;
-    padding: 0 20px;
-  }
-}
-
-@media (max-width: 767px) {
-  .auth-wrapper {
-    max-width: 100%;
-    border-radius: 0;
-  }
-
-  .auth-btn {
-    font-size: 16px;
-    padding: 10px 15px;
-  }
-} */
 </style>

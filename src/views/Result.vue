@@ -112,7 +112,7 @@ async function getResult() {
 }
 
 .input-wrapper .result-input:focus + label,
-.input-wrapper .forgot-input:valid + label {
+.input-wrapper .result-input:valid + label {
   top: -20px;
   font-size: 11px;
   color: #82cc6c;
@@ -138,17 +138,3 @@ async function getResult() {
   border-color: #82cc6c;
 }
 </style>
-
-<!-- //   const data = {
-  //     request_nr: applicationNumber.value,
-  //     birth_date: birthDate.value,
-  //   };
-  // try {
-  //   const response = await postResult(applicationNumber.value, birthDate.value);
-  // } catch (e) {
-  //   if (e.response.status === 422) {
-  //     alert("Ошибка: Неверный формат данных");
-  //   } else {
-  //     alert("Произошла ошибка при получения заявки");
-  //   }
-  // } -->

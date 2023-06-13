@@ -1,17 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import PersonalCabinetMain from "../layout/PersonalCabinetMain.vue";
 
-// const checkAuth = (to, from, next) => {
-//   const requireAuth = to?.meta?.auth;
-
-//   // next("/auth");
-//   // if (requireAuth) {
-//   //   next("/auth");
-//   // }
-
-//   if (requireAuth) next({ name: "Auth" });
-// };
-
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,10 +8,7 @@ export const router = createRouter({
       path: "/",
       name: "PersonalCabinetMain",
       component: PersonalCabinetMain,
-      // beforeEnter: checkAuth,
-      // meta: {
-      //   auth: true,
-      // },
+
       children: [
         {
           path: "/orders",
@@ -39,6 +25,11 @@ export const router = createRouter({
           name: "Help",
           component: () => import("@/views/help/HelpTabs.vue"),
         },
+        {
+          path: "/not-found",
+          name: "NotFountd",
+          component: () => import("@/views/NotFound.vue"),
+        },
       ],
     },
     {
@@ -53,13 +44,19 @@ export const router = createRouter({
     },
     {
       path: "/forgot-password",
-      name: "forgot",
+      name: "Forgot",
       component: () => import("@/views/ForgotPassword.vue"),
     },
     {
       path: "/result",
-      name: "result",
+      name: "Result",
       component: () => import("@/views/Result.vue"),
+    },
+
+    {
+      path: "/expired-token",
+      name: "ExpiredToken",
+      component: () => import("../views/ExpiredToken.vue"),
     },
   ],
 });

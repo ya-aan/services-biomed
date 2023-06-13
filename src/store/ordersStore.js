@@ -28,8 +28,24 @@ export const useOrdersStore = defineStore("orders", {
         const result = keys.map((key) => {
           return response.data.requests[key];
         });
+
+        // Сортировка по #Заказа
+        // result.sort((a, b) => a.request.internalNr - b.request.internalNr);
+
+        // Сортировка по дате оформления
+        // result.sort(
+        //   (a, b) =>
+        //     new Date(a.request.registrationDate) -
+        //     new Date(b.request.registrationDate)
+        // );
+
+        // Сортировка по сроку выполнения
+        // result.sort(
+        //   (a, b) => new Date(a.request.endDate) - new Date(b.request.endDate)
+        // );
+
         this.orders = result;
-        console.log("eto result", result);
+        this.isLoading = false;
       } catch (e) {
         if (e.response && e.response.status === 422 && e.response.data.detail) {
           alert("Ошибка валидации данных: ", e.response.data.detail);

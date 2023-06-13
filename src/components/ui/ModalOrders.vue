@@ -1,11 +1,11 @@
 <script setup>
-import { useModalOrderStore } from "@/store/modalOrderStore";
-import { storeToRefs } from "pinia";
 import { computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useModalOrderStore } from "@/store/modalOrderStore";
 
-const orderStore = useModalOrderStore();
+const orderModalStore = useModalOrderStore();
 
-const { order, works } = storeToRefs(orderStore);
+const { order, works } = storeToRefs(orderModalStore);
 
 const emit = defineEmits(["close"]);
 
@@ -95,14 +95,12 @@ const genderString = computed(() => {
 
             <div class="ant-row">
               <div class="ant-col">
-                <button class="ant-btn">
-                  <a
-                    :href="order.path_to_pdf_result"
-                    download="official_blank.pdf"
-                    class="ant-href"
-                    >Официальный бланк</a
-                  >
-                </button>
+                <a
+                  :href="order.path_to_pdf_result"
+                  target="_blank"
+                  class="ant-href"
+                  >Официальный бланк</a
+                >
               </div>
             </div>
 

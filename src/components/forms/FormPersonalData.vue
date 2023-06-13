@@ -29,18 +29,18 @@ function onSubmit() {
   }
 
   // Валидация отчества
-  if (!user.value.middlename) {
-    errors.push("Отчество обязательно для заполнения");
-  } else if (!/^[а-яА-ЯёЁ]+$/.test(user.value.middlename)) {
-    errors.push("Отчество должно содержать только русские буквы");
-  }
+  // if (!user.value.middlename) {
+  //   errors.push("Отчество обязательно для заполнения");
+  // } else if (!/^[а-яА-ЯёЁ]+$/.test(user.value.middlename)) {
+  //   errors.push("Отчество должно содержать только русские буквы");
+  // }
 
   // Валидации даты рождения
-  if (isFormInEditMode.value) {
-    if (!user.value.date_birth) {
-      errors.push("Дата рождения обязательна для заполнения");
-    }
-  }
+  // if (isFormInEditMode.value) {
+  //   if (!user.value.date_birth) {
+  //     errors.push("Дата рождения обязательна для заполнения");
+  //   }
+  // }
 
   // Валидация телефона
   if (!user.value.phone) {
@@ -87,7 +87,6 @@ function onSubmit() {
         type="text"
         id="midlleName"
         v-model.trim="user.middlename"
-        required
       />
       <label for="midlleName">Отчество</label>
     </div>
@@ -97,7 +96,7 @@ function onSubmit() {
         class="form-input"
         type="date"
         id="birthdate"
-        v-model.trim="user.date_birth"
+        v-model="user.date_birth"
         required
       />
       <label for="midlleName">Дата рождения</label>
@@ -114,16 +113,10 @@ function onSubmit() {
     </div>
 
     <div class="input-wrapper">
-      <input
-        class="form-input"
-        type="tel"
-        id="phone"
-        v-model.trim="user.phone"
-        required
-      />
+      <input class="form-input" type="tel" v-model.trim="user.phone" required />
       <label for="email">Мобильный номер</label>
     </div>
-
+    <!-- 
     <div class="input-wrapper" v-if="isFormInEditMode">
       <input
         class="form-input"
@@ -133,7 +126,7 @@ function onSubmit() {
         required
       />
       <label for="email">Email</label>
-    </div>
+    </div> -->
 
     <button v-if="isFormInEditMode" class="btn" type="submit">
       Обновить данные
@@ -145,10 +138,6 @@ function onSubmit() {
 <style lang="css" scoped>
 .form {
   padding: 20px 35px;
-}
-
-.form div {
-  margin-bottom: 15px;
 }
 
 .form select {
