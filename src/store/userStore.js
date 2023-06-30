@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { getUserData, patchUserData, postLogout } from "@/services/userService";
+import { useToastStore } from "./toastStore";
 import moment from "moment";
 
 export const useUserStore = defineStore("user", {
@@ -45,6 +46,7 @@ export const useUserStore = defineStore("user", {
 
   actions: {
     async fetchUser() {
+      const toastStore = useToastStore();
       try {
         const response = await getUserData();
         this.user = response.data;
@@ -57,13 +59,22 @@ export const useUserStore = defineStore("user", {
           e.response.status === 401 &&
           e.response.data.detail === "Missing token or inactive user"
         ) {
-          alert("Ошибка: такого пользователя не существует");
+          toastStore.setErrorNotification(
+            "Ошибка: такого пользователя не существует"
+          );
         } else {
-          alert("Произошла ошибка при загрузке пользователя");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при загрузке пользователя"
+          );
+          // toastStore.setNotification(
+          //   "Произошла ошибка при загрузке пользователя",
+          //   "success"
+          // );
         }
       }
     },
     async patchUser(payload) {
+      const toastStore = useToastStore();
       try {
         const response = await patchUserData(payload);
         await this.fetchUser();
@@ -73,26 +84,37 @@ export const useUserStore = defineStore("user", {
             e.response.status === 400 &&
             e.response.data.detail === "UPDATE_USER_EMAIL_ALREADY_EXISTS"
           ) {
-            alert("Ошибка: Этот email уже зарегистрирован");
+            toastStore.setErrorNotification(
+              "Ошибка: Этот email уже зарегистрирован"
+            );
           } else if (e.response.status === 401) {
-            alert("Ошибка: Отсутствует токен или пользователь неактивен");
+            toastStore.setErrorNotification(
+              "Ошибка: Отсутствует токен или пользователь неактивен"
+            );
           } else if (e.response.status === 422) {
-            alert("Ошибка: Неверный формат данных");
+            toastStore.setErrorNotification("Ошибка: Неверный формат данных");
           }
         } else {
-          alert("Произошла ошибка при обновление данных пользователя");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при обновление данных пользователя"
+          );
         }
       }
     },
 
     async logoutUser() {
+      const toastStore = useToastStore();
       try {
         const response = await postLogout();
       } catch (e) {
         if (e.response && e.response.status === 401) {
-          alert("Ошибка: отсутствует токен или пользователь неактивен");
+          toastStore.setErrorNotification(
+            "Ошибка: отсутствует токен или пользователь неактивен"
+          );
         } else {
-          alert("Произошла ошибка при выходе из системы");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при выходе из системы"
+          );
         }
       }
     },

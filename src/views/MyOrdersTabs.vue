@@ -8,12 +8,13 @@ import ModalOrders from "@/components/ui/ModalOrders.vue";
 import Modal from "@/components/ui/Modal.vue";
 import FormDowlandOrdersResults from "@/components/forms/FormDowlandOrdersResults.vue";
 import DateConverter from "@/components/DateConverter.vue";
+import deletePng from "@/assets/delete.png";
+import printerPng from "@/assets/printer.png";
 
 const ordersStore = useOrdersStore();
 const modalOrderStore = useModalOrderStore();
 
-const { orders, orderIsNotNullOrEmpty, internalNrSort } =
-  storeToRefs(ordersStore);
+const { orders, orderIsNotNullOrEmpty, pagesCount } = storeToRefs(ordersStore);
 
 const showModalDowland = ref(false);
 
@@ -25,6 +26,11 @@ async function handleOrderData(requestNr, birthDate) {
 async function handleDelete(orderId) {
   await ordersStore.deleteOrder(orderId);
 }
+
+// async function handleLoadMore() {
+//   const nextPage = this.currentPage + 1;
+//   await ordersStore.fetchOrders(nextPage);
+// }
 
 const getSort = (event) => {
   const target = event.target;
@@ -89,19 +95,21 @@ onMounted(async () => {
         <FormDowlandOrdersResults @submit="handleOrderData" />
       </Modal>
 
-      <span class="h5"
+      <span class="text-filter"
         >Вы можете отфильтровать заказы кликнуть на "первые загаловки"</span
       >
 
-      <div class="cabinet-order__table">
+      <div class="cabinet-order__table table-dekstop">
         <table class="table table_sort" v-if="orderIsNotNullOrEmpty">
           <thead class="table-thead">
-            <tr class="table-row">
+            <tr class="table-row table-thead__tr">
               <th class="table-cell sorted" data-order="1">№ заказа</th>
               <th class="table-cell">Дата оформления</th>
               <th class="table-cell">Статус</th>
               <th class="table-cell">Сумма оплаты</th>
               <th class="table-cell">Срок выполнения</th>
+              <th class="table-cell no-sort"></th>
+              <th class="table-cell no-sort"></th>
               <th class="table-cell no-sort"></th>
             </tr>
           </thead>
@@ -114,24 +122,45 @@ onMounted(async () => {
             >
               <td>
                 <button
-                  class="table-btn"
+                  class="table-btn internalNr-text"
                   @click.prevent="modalOrderStore.setOrder(order)"
                 >
                   {{ order.request.internalNr }}
                 </button>
               </td>
 
-              <td><DateConverter :date="order.request.registrationDate" /></td>
-              <td><AnalysisStatus :is-done="order.request.done" /></td>
+              <td>
+                <DateConverter :date="order.request.registrationDate" />
+              </td>
+              <td>
+                <AnalysisStatus :is-done="order.request.done" />
+              </td>
               <td>{{ order.request.totalPrice }} ₽</td>
               <td><DateConverter :date="order.request.endDate" /></td>
 
+              <td>
+                <router-link to="#" class="link-disabled" disabled>
+                  Повторить
+                </router-link>
+              </td>
+
+              <td class="exclude-sort">
+                <div class="ant-col">
+                  <a
+                    :href="order.path_to_pdf_result"
+                    target="_blank"
+                    class="ant-href"
+                  >
+                    <img :src="printerPng" alt="printer" />
+                  </a>
+                </div>
+              </td>
               <td class="exclude-sort">
                 <button
                   class="table-btn__delete"
                   @click="handleDelete(order.request.internalNr)"
                 >
-                  Удалить
+                  <img :src="deletePng" alt="delete" />
                 </button>
               </td>
             </tr>
@@ -154,13 +183,121 @@ onMounted(async () => {
           данные".
         </div>
       </div>
+
+      <!-- //////////////////////////////////////////////////////////////////////////////////////// -->
+
+      <div class="cabinet-order__table table_sort grid-table-mobile">
+        <table
+          class="wrapper-card table table_sort"
+          v-if="orderIsNotNullOrEmpty"
+        >
+          <thead class="div-thead">
+            <tr class="mobile-tr">
+              <span class="span-text sort-text">Сортировать</span>
+
+              <th class="table-cell-mobile sorted" data-order="1">
+                Номер заказа
+              </th>
+            </tr>
+          </thead>
+
+          <tbody class="div-tbody tbody">
+            <tr class="div-row" v-for="order in orders" :key="order.request.id">
+              <td>
+                <div class="wrapper-flex">
+                  <div>
+                    <button
+                      class="table-btn btn-mobile"
+                      @click.prevent="modalOrderStore.setOrder(order)"
+                    >
+                      {{ order.request.internalNr }}
+                    </button>
+                  </div>
+
+                  <span class="text-request">
+                    <AnalysisStatus :is-done="order.request.done" />
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <div class="wrapper-flex">
+                  <span class="span-text">Оформление</span>
+                  <span class="text-request">
+                    <DateConverter :date="order.request.registrationDate" />
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <div class="wrapper-flex">
+                  <span class="span-text">Готовность</span>
+                  <span class="text-request">
+                    <DateConverter :date="order.request.endDate" />
+                  </span>
+                </div>
+              </td>
+
+              <td>
+                <div class="wrapper-flex">
+                  <span class="span-text">Сумма</span>
+                  <span class="text-request">
+                    {{ order.request.totalPrice }} ₽
+                  </span>
+                </div>
+              </td>
+
+              <div class="wrapper-flex">
+                <div class="wrapper-link">
+                  <router-link to="#" class="table-link link-disabled" disabled>
+                    Повторить
+                  </router-link>
+                </div>
+
+                <div class="exclude-sort">
+                  <a :href="order.path_to_pdf_result" target="_blank">
+                    <img :src="printerPng" alt="printer" />
+                  </a>
+                </div>
+                <div class="exclude-sort">
+                  <button
+                    class="table-btn__delete"
+                    @click="handleDelete(order.request.internalNr)"
+                  >
+                    <img :src="deletePng" alt="delete" />
+                  </button>
+                </div>
+              </div>
+            </tr>
+          </tbody>
+        </table>
+
+        <ModalOrders
+          v-if="modalOrderStore.showModal"
+          @close="modalOrderStore.showModal = false"
+        />
+
+        <div
+          class="cabinet-order__pre-order-list"
+          v-if="!orderIsNotNullOrEmpty"
+        >
+          Добавив заказ в архив, вы сможете отслеживать статус его выполнения, а
+          также получать результаты в любое удобное время. Для добавления заказа
+          в архив необходимо создать профиль (ФИО, пол, дата рождения) пациента,
+          на которого оформлялся заказ, сделать это можно в разделе "Мои
+          данные".
+        </div>
+      </div>
     </div>
+    <button
+      v-if="pagesCount"
+      class="dowland-orders__btn"
+      @click="ordersStore.fetchOrders()"
+    >
+      Загрузить ещё
+    </button>
   </div>
 </template>
-
-<!-- <td>
-                <router-link to="#" class="table-link"> Повторить </router-link>
-              </td> -->
 
 <style lang="css" scoped>
 .cabinet-order {
@@ -171,10 +308,16 @@ onMounted(async () => {
   margin-top: 25px;
 }
 .cabinet-order__title {
-  font-size: 16px;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 18px;
   padding-left: 17px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   position: relative;
+}
+
+.grid-table-mobile {
+  display: none;
 }
 
 .cabinet-order__btn {
@@ -183,7 +326,7 @@ onMounted(async () => {
   border: 1px solid #82cc6c;
   border-radius: 5px;
   margin-left: auto;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   display: block;
   color: #098700;
   text-decoration: none;
@@ -203,49 +346,64 @@ onMounted(async () => {
 
 .cabinet-order__pre-order-list {
   border: 1px solid #e8e8e8;
-  padding: 7px 10px;
+  /* padding: 7px 30px; */
+  padding: 9px 20px;
   border-radius: 2px;
   margin-top: 5px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #919191;
+}
+
+.text-filter {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .table {
   width: 100%;
   margin-bottom: 20px;
-  border: 1px solid #dddddd;
-  border-collapse: collapse;
+  /* border: 1px solid #dddddd;
+  border-collapse: collapse; */
+}
+
+.table-thead {
+  width: 170px;
+  height: 55px;
+}
+th,
+td {
+  vertical-align: middle;
 }
 
 .table_sort th {
-  color: #000000;
-  background: #008b8b;
   cursor: pointer;
 }
 
-.table_sort tbody tr:nth-child(even) {
-  background: #e3e3e3;
-}
-
-th.sorted[data-order="1"],
-th.sorted[data-order="-1"] {
+.table-cell.sorted[data-order="1"],
+.table-cell.sorted[data-order="-1"] {
   position: relative;
 }
 
-th.sorted[data-order="1"]::after,
-th.sorted[data-order="-1"]::after {
+.table-cell.sorted[data-order="1"]::after,
+.table-cell.sorted[data-order="-1"]::after {
   right: 8px;
   position: absolute;
 }
 
-th.sorted[data-order="1"]::after {
-  content: "▲";
+.table-cell.sorted[data-order="1"]::after {
+  content: url("../assets/down-arrow.png");
+  transform: rotate(180deg);
 }
 
-th.sorted[data-order="-1"]::after {
-  content: "▼";
+.table-cell.sorted[data-order="-1"]::after {
+  content: url("../assets/down-arrow.png");
 }
 
-th.sorted[data-order="1"]::after {
-  content: "▲";
+.table-cell.sorted[data-order="1"]::after {
+  content: url("../assets/down-arrow.png");
 }
 
 th.no-sort {
@@ -261,13 +419,28 @@ th.no-sort::after {
 .table-btn {
   background: none;
   border: none;
-  /* border-bottom: 1px solid #098700; */
-  color: #098700;
+  color: #61bf1a;
   cursor: pointer;
+  font-family: "Gilroy";
+  font-weight: 500;
+}
+
+.btn-mobile {
+  font-size: 16px;
+}
+
+.btn-mobile::before {
+  content: "№";
+  color: #919191;
+  margin-right: 5px;
+}
+
+.internalNr-text {
+  font-size: 14px;
 }
 .table-link {
   cursor: pointer;
-  color: #098700;
+  color: #61bf1a;
   padding: 0;
 }
 
@@ -280,17 +453,18 @@ th.no-sort::after {
 }
 
 .table td,
-.table th {
-  border: 1px solid #dddddd;
+.table-cell {
+  border: 1px solid #d3d7dd;
 }
+
 .table tr {
-  text-align: left;
+  text-align: center;
 }
-.table th {
+.table-cell {
   font-weight: bold;
   padding: 5px;
-  background: #efefef;
-  border: 1px solid #dddddd;
+  background: #f9fafb;
+  border: 1px solid #d3d7dd;
 }
 .table td {
   padding: 5px;
@@ -305,15 +479,156 @@ th.no-sort::after {
   word-wrap: break-word;
 }
 
+.exclude-sort {
+  border: 1px solid #d3d7dd;
+  padding: 10px 15px;
+}
+
 .table-btn__delete {
-  color: #098700;
   text-decoration: none;
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.table-btn__delete:hover {
-  color: #ff5a00;
+.dowland-orders__btn {
+  display: block;
+  margin: 0 auto;
+  width: 155px;
+  height: 32px;
+  background: #ffffff;
+  border: 1px solid #61bf1a;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.016);
+  border-radius: 5px;
+  color: #61bf1a;
+  cursor: pointer;
+}
+
+/* ///////////////////////////////////////////////////////////////// */
+
+.div-tbody {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+  margin-top: 20px;
+}
+
+.div-row {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: 10px;
+  border: 1px solid #d3d7dd;
+  /* padding: 15px; */
+}
+
+.mobile-tr {
+  display: inline;
+  display: flex;
+  align-items: center;
+}
+
+.table-cell-mobile {
+  border: none;
+}
+
+.table-cell-mobile.sorted[data-order="1"],
+.table-cell-mobile.sorted[data-order="-1"] {
+  position: relative;
+}
+
+.table-cell-mobile.sorted[data-order="1"]::after,
+.table-cell-mobile.sorted[data-order="-1"]::after {
+  position: absolute;
+}
+
+.table-cell-mobile.sorted[data-order="1"]::after {
+  content: url("../assets/down-arrow.png");
+  transform: rotate(180deg);
+}
+
+.table-cell-mobile.sorted[data-order="-1"]::after {
+  content: url("../assets/down-arrow.png");
+}
+
+.table-cell-mobile.sorted[data-order="1"]::after {
+  content: url("../assets/down-arrow.png");
+}
+
+.wrapper-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper-link {
+  border: 1px solid #d3d7dd;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.link-disabled {
+  margin: 0 auto;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+  text-decoration: none;
+  color: #61bf1a;
+}
+
+.sort-text {
+  margin-right: 5px;
+}
+
+.span-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #919191;
+}
+
+.text-request {
+  font-size: 16px;
+}
+
+/* ///////////////////////////////////////////////////////////////// */
+
+@media (max-width: 976px) {
+  .table-dekstop {
+    display: none;
+  }
+
+  .grid-table-mobile {
+    display: block;
+  }
+
+  .wrapper-card td,
+  .table-cell {
+    border: none;
+  }
+
+  .text-filter {
+    display: none;
+  }
+}
+
+@media (max-width: 796px) {
+  .div-tbody {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .cabinet-order__btn {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 524px) {
+  .div-tbody {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 </style>

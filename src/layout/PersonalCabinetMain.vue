@@ -1,16 +1,16 @@
 <script setup>
 import { onMounted } from "vue";
 import { useUserStore } from "@/store/userStore";
-import { useRegistrationStore } from "@/store/registrationStore";
+// import { useOrdersStore } from "@/store/ordersStore";
 import PersonalCabinetTitle from "@/views/PersonalCabinetTitle.vue";
 import PersonalCabinetTabs from "./PersonalCabinetTabs.vue";
 
 const userStore = useUserStore();
-const registerStore = useRegistrationStore();
+// const ordersStore = useOrdersStore();
 
 onMounted(async () => {
   await userStore.fetchUser();
-  // registerStore.setEmail(userStore.user.email);
+  // await ordersStore.fetchOrders();
 });
 </script>
 <template>
@@ -37,4 +37,11 @@ onMounted(async () => {
   overflow: hidden;
   background: #fff;
 }
+
+/* @media (max-width: 976px) {
+  .personal-cabinet__content-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+} */
 </style>

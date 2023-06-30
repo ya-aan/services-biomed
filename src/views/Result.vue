@@ -19,27 +19,18 @@ async function getResult() {
     <div class="result">
       <div class="result-wrapper">
         <div class="result-body">
-          <h1>Результаты анализов</h1>
+          <h2 class="result-title">Результаты анализов</h2>
           <form @submit.prevent="getResult" class="form">
-            <div class="input-wrapper">
-              <input
-                class="result-input"
-                type="number"
-                v-model="applicationNumber"
-                required
-              />
-              <label for="applicationNumber">Номер заявки</label>
-            </div>
+            <label class="label" for="applicationNumber">Номер заявки</label>
+            <input
+              class="input"
+              type="number"
+              v-model.trim="applicationNumber"
+              required
+            />
 
-            <div class="input-wrapper">
-              <input
-                class="result-input"
-                type="date"
-                v-model="birthDate"
-                required
-              />
-              <label for="birthDate">Дата рождения</label>
-            </div>
+            <label class="label" for="birthDate">Дата рождения</label>
+            <input class="input" type="date" v-model="birthDate" required />
 
             <button class="btn-result" type="submit">
               Показать результаты
@@ -81,43 +72,6 @@ async function getResult() {
   margin-bottom: 15px;
 }
 
-.result-input {
-  padding: 7px 9px;
-  border: 1px solid #e8e8e8;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  color: #333;
-  font: 13px Tahoma, Arial, sans-serif;
-  width: 100%;
-  height: 50px;
-}
-
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 13px;
-  color: #999;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 5px;
-}
-
-.input-wrapper .result-input:focus + label,
-.input-wrapper .result-input:valid + label {
-  top: -20px;
-  font-size: 11px;
-  color: #82cc6c;
-}
-
 .btn-result {
   text-decoration: none;
   overflow: visible;
@@ -136,5 +90,22 @@ async function getResult() {
   color: #fff;
   background: #82cc6c;
   border-color: #82cc6c;
+}
+
+@media (max-width: 900px) {
+  .result-wrapper {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .form {
+    width: 100%;
+  }
+
+  .result-title {
+    font-size: 1rem;
+  }
 }
 </style>

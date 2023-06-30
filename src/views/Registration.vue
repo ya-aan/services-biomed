@@ -28,18 +28,17 @@ async function resend() {
     <div class="registration">
       <div class="registration-wrapper">
         <div class="registration-body">
-          <h2>Зарегистрировать Личный кабинет</h2>
+          <h2 class="registration-title">Зарегистрировать Личный кабинет</h2>
           <form @submit.prevent="register" class="form">
-            <div class="input-wrapper">
-              <input
-                class="registration-input"
-                type="email"
-                id="email"
-                v-model.trim="email"
-                required
-              />
-              <label for="email">Email</label>
-            </div>
+            <label class="registration-label label" for="email">Email</label>
+            <input
+              class="input"
+              type="email"
+              id="email"
+              v-model.trim="email"
+              required
+            />
+
             <button class="registration-btn" type="submit">
               Создать личный кабинет
             </button>
@@ -102,8 +101,6 @@ async function resend() {
   width: 50%;
   border-radius: 20px;
 
-  /*  */
-
   box-sizing: border-box;
   border-radius: 4px;
   background-color: #45a82a;
@@ -129,38 +126,7 @@ async function resend() {
   margin-bottom: 20px;
 }
 
-.registration-input {
-  padding: 7px 9px;
-  border: 1px solid #e8e8e8;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  color: #333;
-  font: 13px Tahoma, Arial, sans-serif;
-  width: 100%;
-  height: 50px;
-}
-
-.input-wrapper {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 13px;
-  color: #999;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 5px;
-}
-
-.input-wrapper .registration-input:focus + label,
-.input-wrapper .registration-input:valid + label {
-  top: -20px;
-  font-size: 11px;
-  /* color: #82cc6c; */
+.registration-label {
   color: #fff;
 }
 
@@ -194,5 +160,22 @@ async function resend() {
 
 .link-registration:hover {
   text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .registration-wrapper {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .form {
+    width: 100%;
+  }
+
+  .registration-title {
+    font-size: 1rem;
+  }
 }
 </style>

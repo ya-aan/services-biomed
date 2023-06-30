@@ -2,8 +2,10 @@
 import { ref } from "vue";
 import { forgotPassword } from "@/services/passwordService";
 import { useRouter } from "vue-router";
+import { useToastStore } from "@/store/toastStore";
 
 const router = useRouter();
+const toastStore = useToastStore();
 
 const email = ref("");
 
@@ -14,13 +16,18 @@ async function forgot() {
 
   try {
     const response = await forgotPassword(data);
-    alert("Письмо со сменной пароля отправлено вам на почту.");
+    toastStore.setNotification(
+      "Письмо со сменной пароля отправлено вам на почту.",
+      "success"
+    );
     router.push("/auth");
   } catch (e) {
     if (e.response.status === 422) {
-      alert("Ошибка: Неверный формат данных");
+      toastStore.setErrorNotification("Ошибка: Неверный формат данных");
     } else {
-      alert("Произошла ошибка при восстановлении пароля");
+      toastStore.setErrorNotification(
+        "Произошла ошибка при восстановлении пароля"
+      );
     }
   }
 }
@@ -32,15 +39,8 @@ async function forgot() {
         <div class="forgot-body">
           <h2>Восстановление пароля</h2>
           <form @submit.prevent="forgot" class="form">
-            <div class="input-wrapper">
-              <input
-                class="forgot-input"
-                type="email"
-                v-model="email"
-                required
-              />
-              <label for="email">Email</label>
-            </div>
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" v-model.trim="email" required />
 
             <button class="btn-forgot" type="submit">Сменить</button>
           </form>
@@ -75,43 +75,6 @@ async function forgot() {
   margin-bottom: 15px;
 }
 
-.forgot-input {
-  padding: 7px 9px;
-  border: 1px solid #e8e8e8;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  color: #333;
-  font: 13px Tahoma, Arial, sans-serif;
-  width: 100%;
-  height: 50px;
-}
-
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 13px;
-  color: #999;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 5px;
-}
-
-.input-wrapper .forgot-input:focus + label,
-.input-wrapper .forgot-input:valid + label {
-  top: -20px;
-  font-size: 11px;
-  color: #82cc6c;
-}
-
 .btn-forgot {
   text-decoration: none;
   overflow: visible;
@@ -130,5 +93,18 @@ async function forgot() {
   color: #fff;
   background: #82cc6c;
   border-color: #82cc6c;
+}
+
+@media (max-width: 900px) {
+  .forgot-wrapper {
+    width: 100%;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .form {
+    width: 100%;
+  }
 }
 </style>

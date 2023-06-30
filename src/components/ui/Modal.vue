@@ -31,24 +31,21 @@ const props = defineProps({
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
-  display: block;
-  /* justify-content: center;
-  align-items: center; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-  /* background-color: #fefefe;
-  border: 1px solid #888;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  position: relative; */
-
   background-color: #fefefe;
   margin: 15% auto;
   padding: 0px 20px;
   border: 1px solid #e8e8e8;
-  width: 30%;
+  width: 80%;
+  max-width: 500px;
   border-radius: 5px;
+  max-height: 80%;
+  overflow-y: auto;
 }
 
 .modal-content__header {
@@ -61,15 +58,15 @@ const props = defineProps({
 
 .modal-content__body {
   padding: 10px;
-  /* display: flex;
-  justify-content: center; */
 }
 
 .close {
   color: #aaa;
-  float: right;
   font-size: 22px;
   font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
 .close:hover,
@@ -79,11 +76,21 @@ const props = defineProps({
   cursor: pointer;
 }
 
-@media (max-width: 767px) {
+/* adaptiv */
+
+@media (max-width: 768px) {
   .modal-content {
-    max-width: 100%;
-    max-height: 100%;
-    border-radius: 0;
+    width: 90%;
+    margin: 10% auto;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .modal-content {
+    width: 90%;
+    margin: 20% auto;
   }
 }
 </style>

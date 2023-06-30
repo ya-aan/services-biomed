@@ -1,62 +1,61 @@
 import { defineStore } from "pinia";
 import { postOrder, getOrders, deleteOrder } from "@/services/ordersService";
+import { useToastStore } from "./toastStore";
 
 export const useOrdersStore = defineStore("orders", {
   state: () => ({
     orders: null,
     totalPages: 0,
+    // limit: 10,
+    // perPage: 10,
+    currentPage: 0,
   }),
 
   getters: {
     orderIsNotNullOrEmpty(state) {
       return state.orders && state.orders.length > 0;
     },
+
+    pagesCount(state) {
+      return state.currentPage < state.totalPages;
+    },
   },
 
   actions: {
     async fetchOrders() {
+      const toastStore = useToastStore();
+
       try {
-        // const response = (await import("../data/orders.json")).default;
-        // this.totalPages = response.total_pages;
-        // const keys = Object.keys(response.requests);
-        // const result = keys.map((key) => {
-        //   return response.requests[key];
-        // });
-        const response = await getOrders();
+        const response = await getOrders(this.currentPage);
         this.totalPages = response.data.total_pages;
         const keys = Object.keys(response.data.requests);
         const result = keys.map((key) => {
           return response.data.requests[key];
         });
 
-        // Сортировка по #Заказа
-        // result.sort((a, b) => a.request.internalNr - b.request.internalNr);
+        // this.orders = result;
 
-        // Сортировка по дате оформления
-        // result.sort(
-        //   (a, b) =>
-        //     new Date(a.request.registrationDate) -
-        //     new Date(b.request.registrationDate)
-        // );
+        if (this.orders) {
+          this.orders = [...this.orders, ...result];
+        } else {
+          this.orders = result;
+        }
 
-        // Сортировка по сроку выполнения
-        // result.sort(
-        //   (a, b) => new Date(a.request.endDate) - new Date(b.request.endDate)
-        // );
-
-        this.orders = result;
-        this.isLoading = false;
+        this.currentPage += 1;
       } catch (e) {
         if (e.response && e.response.status === 422 && e.response.data.detail) {
-          alert("Ошибка валидации данных: ", e.response.data.detail);
+          toastStore.setErrorNotification("Ошибка валидации данных: ");
         } else {
-          alert("Произошла ошибка при загрузке данных");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при загрузке данных"
+          );
         }
       }
     },
 
     // Здесь добавлю Заказ (Order)
     async addingOrder(requestNr, birthDate) {
+      const toastStore = useToastStore();
       try {
         const response = await postOrder(requestNr, birthDate);
         if (response.status === 200) {
@@ -64,24 +63,31 @@ export const useOrdersStore = defineStore("orders", {
         }
       } catch (e) {
         if (e.response?.status === 422) {
-          alert("Ошибка: Неверный формат данных");
+          toastStore.setErrorNotification(
+            "Поле «Номер заказа» имеет неверный формат. Возможно, вы вводите символы на русской раскладке клавиатуры."
+          );
         } else if (e.response?.status === 400) {
-          alert("Ошибка: Неверный формат данных");
+          toastStore.setErrorNotification("Ошибка: Неверный формат данных");
         } else {
-          alert("Произошла ошибка при добавление заявки");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при добавление заявки"
+          );
         }
       }
     },
 
     async deleteOrder(orderId) {
+      const toastStore = useToastStore();
       try {
         const response = await deleteOrder(orderId);
         await this.fetchOrders();
       } catch (e) {
         if (e.response && e.response.status === 422 && e.response.data.detail) {
-          alert("Ошибка валидации данных");
+          toastStore.setErrorNotification("Ошибка валидации данных");
         } else {
-          alert("Произошла ошибка при удалении заказа");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при удалении заказа"
+          );
         }
       }
     },

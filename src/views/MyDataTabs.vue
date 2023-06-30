@@ -67,7 +67,8 @@ async function replaceHandleFormData(data) {
           <td>{{ genderString }}</td>
           <td>{{ user.phone }}</td>
           <td>{{ user.email }}</td>
-          <td>
+
+          <td class="table-cell-btn">
             <button class="content-table__btn" @click="showModalReplace = true">
               Редактировать
             </button>
@@ -99,9 +100,13 @@ async function replaceHandleFormData(data) {
 <style lang="css" scoped>
 .content-text {
   padding: 20px;
+  overflow: auto;
 }
 .content-caption {
   position: relative;
+  /* display: flex;
+  justify-content: space-between; */
+
   font-size: 16px;
   padding-left: 17px;
   margin-bottom: 25px;
@@ -137,13 +142,17 @@ async function replaceHandleFormData(data) {
   border-collapse: collapse;
 }
 
+.table-cell-btn {
+  text-align: center;
+}
+
 .content-table td,
 .content-table th {
   border: 1px solid #dddddd;
 }
-.content-table tr {
+/* .content-table tr {
   text-align: left;
-}
+} */
 .content-table th {
   font-weight: bold;
   padding: 5px;
@@ -172,5 +181,18 @@ async function replaceHandleFormData(data) {
 
 .content-table__btn:hover {
   color: #ff5a00;
+}
+
+@media (max-width: 335px) {
+  .content-caption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .content-btn {
+    position: initial;
+  }
 }
 </style>

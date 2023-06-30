@@ -3,43 +3,60 @@ import {
   registerNewUser,
   resendVerification,
 } from "@/services/registrationService";
+import { useToastStore } from "./toastStore";
 
 export const useRegistrationStore = defineStore("registration", {
   actions: {
     async registerUser(registrationData) {
+      const toastStore = useToastStore();
       try {
         const response = await registerNewUser(registrationData);
-        alert("Письмо с подтверждения отправлено на указанный email");
+        toastStore.setNotification(
+          "Письмо с подтверждения отправлено на указанный email",
+          "success"
+        );
       } catch (e) {
         if (
           e.response &&
           e.response.status === 400 &&
           e.response.data.detail === "REGISTER_USER_ALREADY_EXISTS"
         ) {
-          alert("Пользователь с таким email уже существует");
+          toastStore.setErrorNotification(
+            "Пользователь с таким email уже существует"
+          );
         } else {
-          alert("Произошла ошибка при регистрации, попробуйте попозже");
+          toastStore.setErrorNotification(
+            "Произошла ошибка при регистрации, попробуйте попозже"
+          );
         }
       }
     },
 
     async resendEmail(email) {
+      const toastStore = useToastStore();
       try {
         const response = await resendVerification(email);
-        alert("Повторное письмо отправлено вам на почту");
+        toastStore.setNotification(
+          "Повторное письмо отправлено вам на почту",
+          "info"
+        );
       } catch (e) {
         switch (e.response && e.response.status) {
           case 400:
-            alert("Почта не найдена");
+            toastStore.setErrorNotification("Почта не найдена");
             break;
           case 498:
-            alert("Пользователь либо неактивен, либо уже верифицирован");
+            toastStore.setErrorNotification(
+              "Пользователь либо неактивен, либо уже верифицирован"
+            );
             break;
           case 422:
-            alert("Ошибка валидации, проверьте правильно ли заполнены поля");
+            toastStore.setErrorNotification(
+              "Ошибка валидации, проверьте правильно ли заполнены поля"
+            );
             break;
           default:
-            alert(
+            toastStore.setErrorNotification(
               "Произошла ошибка при верификации пользователя, повторите позже"
             );
             break;

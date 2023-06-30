@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed } from "vue";
+import { useToastStore } from "@/store/toastStore";
+
+const toastStore = useToastStore();
 
 const emit = defineEmits(["submitData"]);
 
@@ -50,7 +53,7 @@ function onSubmit() {
   }
 
   if (errors.length > 0) {
-    alert(errors.join("\n"));
+    toastStore.setErrorNotification(errors.join("\n"));
   } else {
     const payload = { ...user.value };
     emit("submitData", payload);
@@ -59,51 +62,44 @@ function onSubmit() {
 </script>
 <template>
   <form class="form" @submit.prevent="onSubmit">
-    <div class="input-wrapper">
-      <input
-        class="form-input"
-        type="text"
-        id="surname"
-        v-model.trim="user.lastname"
-        required
-      />
-      <label for="name">Фамилия</label>
-    </div>
+    <label class="label" for="surname">Фамилия</label>
+    <input
+      class="input"
+      type="text"
+      id="surname"
+      v-model.trim="user.lastname"
+      required
+    />
 
-    <div class="input-wrapper">
-      <input
-        class="form-input"
-        type="text"
-        id="name"
-        v-model.trim="user.firstname"
-        required
-      />
-      <label for="name">Имя</label>
-    </div>
+    <label class="label" for="name">Имя</label>
+    <input
+      class="input"
+      type="text"
+      id="name"
+      v-model.trim="user.firstname"
+      required
+    />
 
-    <div class="input-wrapper">
-      <input
-        class="form-input"
-        type="text"
-        id="midlleName"
-        v-model.trim="user.middlename"
-      />
-      <label for="midlleName">Отчество</label>
-    </div>
+    <label class="label" for="midlleName">Отчество</label>
+    <input
+      class="input"
+      type="text"
+      id="midlleName"
+      v-model.trim="user.middlename"
+      required
+    />
 
-    <div class="input-wrapper">
-      <input
-        class="form-input"
-        type="date"
-        id="birthdate"
-        v-model="user.date_birth"
-        required
-      />
-      <label for="midlleName">Дата рождения</label>
-    </div>
+    <label class="label" for="date-birth">Дата рождения</label>
+    <input
+      class="input"
+      type="text"
+      id="birthdate"
+      v-model="user.date_birth"
+      required
+    />
 
     <div>
-      <label for="gender">Пол:</label>
+      <label class="label" for="gender">Пол:</label>
       <select id="gender" v-model.number="user.male">
         <option value="0">Не выбрано</option>
 
@@ -112,10 +108,9 @@ function onSubmit() {
       </select>
     </div>
 
-    <div class="input-wrapper">
-      <input class="form-input" type="tel" v-model.trim="user.phone" required />
-      <label for="email">Мобильный номер</label>
-    </div>
+    <label class="label" for="phone">Мобильный номер</label>
+    <input class="input" type="tel" v-model.trim="user.phone" required />
+
     <!-- 
     <div class="input-wrapper" v-if="isFormInEditMode">
       <input
@@ -138,6 +133,7 @@ function onSubmit() {
 <style lang="css" scoped>
 .form {
   padding: 20px 35px;
+  text-align: left;
 }
 
 .form select {
@@ -148,48 +144,6 @@ function onSubmit() {
   color: #333;
   font: 13px Tahoma, Arial, sans-serif;
   margin-bottom: 15px;
-}
-
-.form-input {
-  padding: 7px 9px;
-  border: 1px solid #e8e8e8;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  color: #333;
-  font: 13px Tahoma, Arial, sans-serif;
-  /* width: 242px; */
-  width: 100%;
-  height: 50px;
-}
-
-.input-wrapper {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 13px;
-  color: #999;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 5px;
-}
-
-.input-wrapper .form-input:focus + label,
-.input-wrapper .form-input:valid + label {
-  top: -20px;
-  font-size: 11px;
-  color: #82cc6c;
-}
-
-label[for="gender"] {
-  display: block;
-  margin-bottom: 5px;
-  font-size: 13px;
-  color: #999;
 }
 
 #gender {
@@ -221,5 +175,11 @@ label[for="gender"] {
   color: #fff;
   background: #82cc6c;
   border-color: #82cc6c;
+}
+
+@media (max-width: 400px) {
+  .form {
+    padding: 0;
+  }
 }
 </style>

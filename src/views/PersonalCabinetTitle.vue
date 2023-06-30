@@ -1,11 +1,10 @@
 <script setup>
 import { useUserStore } from "@/store/userStore";
-import { useRegistrationStore } from "@/store/registrationStore";
 import user from "@/assets/icon-personal-cabinet-profile.png";
+import logoutPng from "@/assets/logout.png";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
-const registerStore = useRegistrationStore();
 const router = useRouter();
 
 async function logout() {
@@ -18,29 +17,31 @@ async function logout() {
     <div class="personal-cabinet__title">
       <div class="personal-cabinet__content">
         <img class="personal-cabinet__content-img" :src="user" alt="user" />
-        <span
-          v-if="
-            !userStore.user?.lastname &&
-            !userStore.user?.firstname &&
-            !userStore.user?.middlename
-          "
-          >Профиль не заполнен
-        </span>
-        <span v-else
-          >{{
-            `${userStore.user?.lastname} ${userStore.user?.firstname} ${userStore.user?.middlename}`
-          }}
-        </span>
+        <div class="wrapper-content">
+          <span
+            v-if="
+              !userStore.user?.lastname &&
+              !userStore.user?.firstname &&
+              !userStore.user?.middlename
+            "
+            >Профиль не заполнен
+          </span>
+          <span v-else
+            >{{
+              `${userStore.user?.lastname} ${userStore.user?.firstname} ${userStore.user?.middlename}`
+            }}
+          </span>
 
-        <span class="personal-cabinet__login">
-          <span> ( </span>
-          {{ userStore.user?.email }}
-          <span>)</span></span
-        >
+          <span class="personal-cabinet__login">
+            {{ userStore.user?.email }}
+          </span>
+        </div>
       </div>
-      <span class="personal-cabinet__exit">
-        <button @click="logout" class="exit-btn">выйти</button></span
-      >
+
+      <div class="wrapper-exit">
+        <img class="personal-cabinet-exit" :src="logoutPng" alt="logout" />
+        <button @click="logout" class="exit-btn">выйти</button>
+      </div>
     </div>
   </div>
 </template>
@@ -66,14 +67,25 @@ async function logout() {
 }
 
 .personal-cabinet__content-img {
-  width: 35px;
-  height: 35px;
+  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.personal-cabinet__text {
+  font-weight: 500;
+}
+
+.wrapper-exit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .personal-cabinet__login {
   margin-left: 5px;
-  color: #098700;
-  font-size: small;
+  color: #141618;
 }
 
 .exit-btn {
@@ -86,5 +98,22 @@ async function logout() {
 
 .exit-btn:hover {
   color: #ff5a00;
+}
+
+@media (max-width: 582px) {
+  .wrapper-content {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 330px) {
+  .personal-cabinet__content-img {
+    display: none;
+  }
+
+  .personal-cabinet-exit {
+    display: none;
+  }
 }
 </style>

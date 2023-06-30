@@ -33,7 +33,6 @@ import helpTabs from "@/assets/help-tabs.png";
 .personal-cabinet__tabs {
   display: flex;
   flex-direction: column;
-  margin-top: 55px;
 }
 
 .personal-cabinet__menu {
@@ -70,5 +69,11 @@ import helpTabs from "@/assets/help-tabs.png";
   background: #fff;
   color: #ff5a00;
   border: 1px solid #e8e8e8;
+}
+
+@media (max-width: 976px) {
+  .personal-cabinet__tabs {
+    display: none;
+  }
 }
 </style>

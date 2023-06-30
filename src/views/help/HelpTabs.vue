@@ -1,20 +1,13 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import HelpPersonalAccount from "./helpTabsComponents/HelpPersonalAccount.vue";
-import HelpGetResults from "./helpTabsComponents/HelpGetResults.vue";
-import HelpGetResultByEmail from "./helpTabsComponents/HelpGetResultByEmail.vue";
-import HelpUploadOrdersResult from "./helpTabsComponents/HelpUploadOrdersResult.vue";
 import HelpMyData from "./helpTabsComponents/HelpMyData.vue";
-import HelpChangeEmail from "./helpTabsComponents/HelpChangeEmail.vue";
 const currentTab = ref("HelpPersonalAccount");
 
 const tabs = {
   "Что такое личный кабинет?": HelpPersonalAccount,
-  "Как получить результаты исследований?": HelpGetResults,
-  "Как получить результаты по e-mail?": HelpGetResultByEmail,
-  "Как загрузить результаты заказа?": HelpUploadOrdersResult,
+
   "Зачем нужен раздел мои данные?": HelpMyData,
-  "Как сменить e-mail?": HelpChangeEmail,
 };
 </script>
 <template>
@@ -73,9 +66,6 @@ const tabs = {
 
 .tab-button:active,
 .active-tab-button {
-  /* background: #82cc6c;
-  color: #fff;
-  padding: 10px; */
   color: #ff5a00;
 }
 

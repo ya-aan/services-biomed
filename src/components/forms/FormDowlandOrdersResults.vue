@@ -14,32 +14,35 @@ function onSubmit() {
 <template>
   <div class="form-wrapper">
     <form class="form" @submit.prevent="onSubmit">
-      <div class="input-wrapper">
+      <div>
+        <label class="label" for="text">Номер заказа</label>
         <input
-          class="form-input"
+          class="input input-dowland"
           type="text"
           v-model.trim="orderNumber"
           required
         />
-        <label for="text">Номер заказа</label>
+
+        <span class="form-example">например: 7230418123</span>
       </div>
 
-      <div class="input-wrapper" v-if="showBirthDateInput">
-        <input class="form-input" type="date" required v-model="birthDate" />
-        <label for="text">Дата рождения</label>
+      <div v-if="showBirthDateInput">
+        <label class="label" for="text">Дата рождения</label>
+        <input class="input" type="date" required v-model="birthDate" />
       </div>
 
       <span v-if="showBirthDateInput"
         >Введите дату рождения указанную на бланке</span
       >
 
-      <div class="form-example">например: 7230418123</div>
+      <div class="wrapper-button">
+        <button class="btn-form" @click="showBirthDateInput = true">
+          Загрузить для другого человека
+        </button>
 
-      <button class="btn-form" type="submit">Добавить</button>
+        <button class="btn-form" type="submit">Добавить</button>
+      </div>
     </form>
-    <button class="btn-form" @click="showBirthDateInput = true">
-      Указать иную дату рождения
-    </button>
   </div>
 </template>
 
@@ -55,53 +58,27 @@ function onSubmit() {
   flex-direction: column;
 }
 
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.input-wrapper label {
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 13px;
-  color: #999;
-  pointer-events: none;
-  transition: all 0.3s ease;
-  padding: 5px;
-}
-
-.form-input {
-  padding: 7px 9px;
-  border: 1px solid #e8e8e8;
-  -ms-border-radius: 5px;
-  border-radius: 5px;
-  color: #333;
-  font: 13px Tahoma, Arial, sans-serif;
-  width: 100%;
-  height: 50px;
-}
-
-.input-wrapper .form-input:focus + label,
-.input-wrapper .form-input:valid + label {
-  top: -20px;
-  font-size: 11px;
-  color: #82cc6c;
+.input-dowland {
+  margin-bottom: 0;
 }
 
 .form-example {
   margin: 10px 0;
-  /* font-size: 11px; */
-  /* text-align: center; */
-  color: #5f5f5f;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #919191;
+}
+
+.wrapper-button {
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
 }
 
 .btn-form {
   border: 1px solid #82cc6c;
   border-radius: 5px;
-  margin-left: auto;
   margin-bottom: 5px;
   display: block;
   color: #098700;
@@ -118,5 +95,14 @@ function onSubmit() {
   color: #fff;
   background: #82cc6c;
   border-color: #82cc6c;
+}
+
+/* adaptiv */
+
+@media (max-width: 576px) {
+  .wrapper-button {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 </style>

@@ -1,12 +1,18 @@
 <script setup>
 import { computed } from "vue";
+import alertError from "@/assets/alert-error.png";
 
 const props = defineProps({
   type: {
     type: String,
     default: "info",
   },
+  message: {
+    type: String,
+  },
 });
+
+const emit = defineEmits(["close"]);
 
 const classes = computed(() => {
   return {
@@ -19,9 +25,15 @@ const classes = computed(() => {
 </script>
 <template>
   <div class="alert" :class="classes" role="alert">
-    <h5>
-      <slot></slot>
-    </h5>
+    <div v-if="classes['alert-danger']">
+      <img :src="alertError" alt="Alert" />
+    </div>
+    <div class="alert-text">
+      {{ message }}
+    </div>
+    <div>
+      <span class="close" @click="$emit('close')">&times;</span>
+    </div>
   </div>
 </template>
 
@@ -38,6 +50,35 @@ const classes = computed(() => {
   border-radius: 0.25rem;
   max-width: 500px;
   margin: 0 auto;
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10%;
+  width: 50%; */
+}
+
+.alert-text {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  /*  */
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .alert-info {
@@ -50,6 +91,12 @@ const classes = computed(() => {
   color: #198754;
   background-color: #d4edda;
   border-color: #c3e6cb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* height: 10%; */
+  /* height: 10.33%; */
+  width: 33.33%;
 }
 
 .alert-warning {
@@ -59,8 +106,30 @@ const classes = computed(() => {
 }
 
 .alert-danger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
   color: #dc3545;
-  background-color: #f8d7da;
+  background-color: #ffffff;
   border-color: #f5c2c7;
+  width: 100%;
+
+  border-radius: 6px;
+}
+
+@media (max-width: 667px) {
+  .alert-success {
+    width: auto;
+  }
+}
+
+@media (max-width: 450px) {
+  .alert-success {
+    width: 100%;
+  }
+  /* .alert-danger {
+    width: 80%;
+  } */
 }
 </style>
