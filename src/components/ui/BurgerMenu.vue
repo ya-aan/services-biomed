@@ -17,12 +17,6 @@ function closeMenu() {
 <template>
   <div class="burger-menu burger" :data-is-open="isOpen">
     <button @click="toggleMenu" class="burger-menu__button">
-      <!-- <div id="nav-icon1" :class="{ open: isOpen }"> -->
-      <!-- <span></span>
-        <span></span>
-        <span></span> -->
-      <!-- </div> -->
-
       <span>
         <i class="burger-i"></i>
         <i class="burger-i"></i>
@@ -92,49 +86,6 @@ function closeMenu() {
   transition: transform 0.33s;
 }
 
-/* #nav-icon1 {
-  width: 60px;
-  height: 45px;
-  position: relative;
-  margin: 30px auto;
-  transform: rotate(0deg);
-  transition: 0.5s ease-in-out;
-  cursor: pointer;
-}
-#nav-icon1 span {
-  display: block;
-  position: absolute;
-  height: 5px;
-  width: 100%;
-  background: #38af09;
-  border-radius: 9px;
-  opacity: 1;
-  left: 0;
-  transform: rotate(0deg);
-  transition: 0.25s ease-in-out;
-}
-#nav-icon1 span:nth-child(1) {
-  top: 0px;
-}
-#nav-icon1 span:nth-child(2) {
-  top: 18px;
-}
-#nav-icon1 span:nth-child(3) {
-  top: 36px;
-}
-#nav-icon1.open span:nth-child(1) {
-  top: 18px;
-  transform: rotate(135deg);
-}
-#nav-icon1.open span:nth-child(2) {
-  opacity: 0;
-  left: -60px;
-}
-#nav-icon1.open span:nth-child(3) {
-  top: 18px;
-  transform: rotate(-135deg);
-} */
-
 /* .............. */
 .burger-menu {
   display: none;
@@ -166,10 +117,6 @@ function closeMenu() {
 .burger-menu__item {
   margin-bottom: 16px;
 }
-
-/* #nav-icon1.open span {
-  background-color: #61bf1a;
-} */
 
 @media (max-width: 976px) {
   .burger-menu {

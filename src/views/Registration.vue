@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useRegistrationStore } from "../store/registrationStore";
 import Modal from "@/components/ui/Modal.vue";
 import FormProblems from "@/components/forms/FormProblems.vue";
 
 const registerStore = useRegistrationStore();
+const router = useRouter();
 
 const email = ref("");
 const showModal = ref(false);
@@ -14,8 +16,8 @@ async function register() {
     email: email.value,
     password: "",
   };
-
   await registerStore.registerUser(registrationData);
+  router.push("/auth");
 }
 
 async function resend() {

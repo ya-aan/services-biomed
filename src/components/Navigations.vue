@@ -28,7 +28,9 @@ import phone from "@/assets/phone.png";
       <div class="wrapper-logo">
         <img :src="logoPng" alt="logo" />
       </div>
-      <span class="span-text">Личный кабинет клиента</span>
+      <router-link class="span-text" to="/orders"
+        >Личный кабинет клиента</router-link
+      >
 
       <div class="wrapper-navbar">
         <nav class="navbar">
@@ -150,9 +152,10 @@ import phone from "@/assets/phone.png";
   display: none;
 }
 
-/* .link-margin {
-  margin-left: 239px;
-} */
+.span-text {
+  text-decoration: none;
+  color: #333;
+}
 
 /* adaptiv */
 

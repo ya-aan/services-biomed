@@ -92,7 +92,7 @@ function onSubmit() {
     <label class="label" for="date-birth">Дата рождения</label>
     <input
       class="input"
-      type="text"
+      type="date"
       id="birthdate"
       v-model="user.date_birth"
       required
@@ -110,18 +110,6 @@ function onSubmit() {
 
     <label class="label" for="phone">Мобильный номер</label>
     <input class="input" type="tel" v-model.trim="user.phone" required />
-
-    <!-- 
-    <div class="input-wrapper" v-if="isFormInEditMode">
-      <input
-        class="form-input"
-        type="email"
-        id="email"
-        v-model.trim="user.email"
-        required
-      />
-      <label for="email">Email</label>
-    </div> -->
 
     <button v-if="isFormInEditMode" class="btn" type="submit">
       Обновить данные

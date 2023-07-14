@@ -18,34 +18,6 @@ async function submit() {
   await authStore.authorizationStore(formData);
   router.push("/orders");
 }
-
-//   async function submit() {
-//   const url = "http://81.200.148.127:8080/users/login";
-//   const formData = new FormData();
-//   formData.append("username", email.value);
-//   formData.append("password", password.value);
-//   try {
-//     const response = await axios.post(url, formData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//         withCredentials: true,
-//       },
-//     });
-//     router.push("/orders");
-//   } catch (e) {
-//     if (
-//       e.response &&
-//       e.response.status === 400 &&
-//       e.response.data.detail === "LOGIN_BAD_CREDENTIALS"
-//     ) {
-//       alert("Неверный логин или пароль");
-//     } else if (e.response.data.detail === "LOGIN_USER_NOT_VERIFIED") {
-//       alert("Учетная запись не была подтверждена");
-//     } else {
-//       alert("Произошла ошибка при авторизации, попробуйте позже");
-//     }
-//   }
-// }
 </script>
 
 <template>
